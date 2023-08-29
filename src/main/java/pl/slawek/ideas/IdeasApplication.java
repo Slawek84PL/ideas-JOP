@@ -7,28 +7,18 @@ import pl.slawek.ideas.input.UserInputMenager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class IdeasApplication {
 
+    private static Logger LOG = Logger.getLogger(IdeasApplication.class.getName());
     public static void main(String[] args) {
         new IdeasApplication().start();
     }
 
     private void start() {
-        System.out.println("Start app...");
-
-        /**
-         * category list -> categoryList()
-         * category add CategoryName -> categoryAdd(name)
-         *
-         * quite -> quiteApplication
-         *
-         * question list -> questionList()
-         * question add CategoryName QuestionName -> questionAdd(CategoryName, QuestionName)
-         *
-         * answer list QuestionName -> answerList(QuestionName)
-         * answer add QuestionName AnswerName -> answerAdd(QuestionName, AnswerAdd)
-         */
+        LOG.info("Start app...");
 
         boolean applicationLoop = true;
 
@@ -43,7 +33,7 @@ class IdeasApplication {
         while (applicationLoop) {
             try {
                 UserInputCommand userInputCommand = userInputMenager.nextCommand();
-                System.out.println(userInputCommand);
+                LOG.info(userInputCommand.toString());
 
                 Optional<CommandHandler> currentHandler = Optional.empty();
                 for (CommandHandler handler : hanlers) {
@@ -56,12 +46,16 @@ class IdeasApplication {
                 currentHandler
                         .orElseThrow(() -> new IllegalStateException("Nie znaleziono handlera dla polecenia" + userInputCommand.getCommand()))
                         .handle(userInputCommand);
+
             } catch (QuitIdeasApplicationException e) {
-                System.out.println("Quite...");
+                LOG.info("Quite...");
                 applicationLoop = false;
 
+            } catch (IllegalArgumentException e) {
+                LOG.warning("Błąd walidacji " + e.getMessage());
+
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.log(Level.SEVERE, "Nieznany błąd " + e);
             }
         }
 
