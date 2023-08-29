@@ -25,7 +25,7 @@ public class Question {
         this.name = name;
     }
 
-    Category getCategory() {
+    public Category getCategory() {
         return category;
     }
 
