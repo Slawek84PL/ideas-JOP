@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class QuestionDao {
 
-    private static Logger LOG = Logger.getLogger(CategoryDao.class.getName());
+    private static Logger LOG = Logger.getLogger(QuestionDao.class.getName());
 
     private static final Path PATH = Paths.get("./questions.json");
     private List<Question> lines;
