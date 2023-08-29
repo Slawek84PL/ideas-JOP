@@ -16,7 +16,7 @@ import java.util.List;
 
 public class QuestionDao {
 
-    private static final Path PATH = Paths.get("./questions.txt");
+    private static final Path PATH = Paths.get("./questions.json");
     private List<Question> lines;
     private final ObjectMapper objectMapper;
 

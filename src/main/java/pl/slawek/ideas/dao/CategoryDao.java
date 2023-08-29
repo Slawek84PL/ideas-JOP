@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class CategoryDao {
 
-    private static final Path PATH = Paths.get("./categories.txt");
+    private static final Path PATH = Paths.get("./categories.json");
     private List<Category> lines;
     private ObjectMapper objectMapper;
 
