@@ -11,8 +11,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CategoryDao {
+
+    private static Logger LOG = Logger.getLogger(CategoryDao.class.getName());
 
     private static final Path PATH = Paths.get("./categories.json");
     private List<Category> lines;
@@ -33,7 +37,7 @@ public class CategoryDao {
         try {
             Files.writeString(PATH, objectMapper.writeValueAsString(lines));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.log(Level.WARNING, "Błąd przy zapisie pliku " + PATH, e);
         }
     }
 
@@ -42,6 +46,7 @@ public class CategoryDao {
             lines = objectMapper.readValue(Files.readString(PATH), new TypeReference<>() {
             });
         } catch (IOException e) {
+            LOG.log(Level.WARNING, "Błąd przy odczycie pliku " + PATH, e);
             lines = new ArrayList<>();
         }
     }
