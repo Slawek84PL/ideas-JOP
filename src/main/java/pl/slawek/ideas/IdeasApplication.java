@@ -27,6 +27,7 @@ class IdeasApplication {
         hanlers.add(new QuitCommandHandler());
         hanlers.add(new CategoryCommandHandler());
         hanlers.add(new QuestionCommandHandler());
+        hanlers.add(new AnswerCommandHandler());
 
         UserInputMenager userInputMenager = new UserInputMenager();
 

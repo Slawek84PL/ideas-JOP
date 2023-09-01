@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,5 +50,10 @@ public class QuestionDao {
             LOG.log(Level.WARNING, "Błąd przy odczycie pliku " + PATH, e);
             lines = new ArrayList<>();
         }
+    }
+
+    public Optional<Question> findOne(final String name) {
+        readLines();
+        return findAll().stream().filter(c -> c.getName().equals(name)).findAny();
     }
 }

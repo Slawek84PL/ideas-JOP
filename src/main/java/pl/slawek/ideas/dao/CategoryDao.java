@@ -51,8 +51,8 @@ public class CategoryDao {
         }
     }
 
-    public Optional<Category> findOne(final String categoryName) {
+    public Optional<Category> findOne(final String name) {
         readLines();
-        return findAll().stream().filter(c -> c.getName().equals(categoryName)).findAny();
+        return findAll().stream().filter(c -> c.getName().equals(name)).findAny();
     }
 }

@@ -33,7 +33,7 @@ public class Question {
         this.category = category;
     }
 
-    List<Answer> getAnswers() {
+    public List<Answer> getAnswers() {
         return answers;
     }
 

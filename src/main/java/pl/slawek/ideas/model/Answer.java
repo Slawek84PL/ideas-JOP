@@ -1,6 +1,6 @@
 package pl.slawek.ideas.model;
 
-class Answer {
+public class Answer {
     private String name;
 
     String getName() {
@@ -9,5 +9,12 @@ class Answer {
 
     void setName(final String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
