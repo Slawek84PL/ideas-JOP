@@ -3,7 +3,14 @@ package pl.slawek.ideas.model;
 public class Answer {
     private String name;
 
-    String getName() {
+    Answer() {
+    }
+
+    public Answer(final String answer) {
+        this.name = answer;
+    }
+
+    public String getName() {
         return name;
     }
 

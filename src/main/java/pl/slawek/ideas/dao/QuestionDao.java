@@ -2,6 +2,7 @@ package pl.slawek.ideas.dao;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import pl.slawek.ideas.model.Answer;
 import pl.slawek.ideas.model.Question;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +37,10 @@ public class QuestionDao {
         readLines();
         lines.add(question);
 
+        save();
+    }
+
+    private void save() {
         try {
             Files.writeString(PATH, objectMapper.writeValueAsString(lines));
         } catch (IOException e) {
@@ -55,5 +61,15 @@ public class QuestionDao {
     public Optional<Question> findOne(final String name) {
         readLines();
         return findAll().stream().filter(c -> c.getName().equals(name)).findAny();
+    }
+
+    public void addAnswer(final Question question, final String answer) {
+        readLines();
+        for (Question q : lines) {
+            if (Objects.equals(q.getName(), (question.getName()))) {
+                q.getAnswers().add(new Answer(answer));
+            }
+        }
+        save();
     }
 }

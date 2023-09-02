@@ -19,6 +19,8 @@ public class AnswerCommandHandler extends BaseCommandHandler {
 
     private CategoryDao categoryDao;
 
+    private Question question;
+
     public AnswerCommandHandler() {
         this.categoryDao = new CategoryDao();
         this.questionDao = new QuestionDao();
@@ -30,17 +32,11 @@ public class AnswerCommandHandler extends BaseCommandHandler {
             case LIST:
                 LOG.info("List of answer...");
 
-                if (!command.getParam().isEmpty()) {
-                    throw new IllegalArgumentException("Lista pytań nie obsługuje parametrów. Wpisz help po więcej informacji");
-                }
-
                 if (command.getParam().size() != 1) {
                     throw new IllegalArgumentException("Dodanie kategorii musi posiadać dwa parametry. Wpisz help po więcej informacji");
                 }
 
-                String questionName = command.getParam().get(0);
-                Question question = questionDao.findOne(questionName)
-                        .orElseThrow(() -> new IllegalStateException("Nie ma takiego pytania jak " + questionName));
+                question = getQuestion(command.getParam().get(0));
 
                 displayQuestion(question);
                 break;
@@ -48,19 +44,16 @@ public class AnswerCommandHandler extends BaseCommandHandler {
             case ADD:
                 LOG.info("add answer");
 
-                if (command.getParam().size() != 1) {
-                    throw new IllegalArgumentException("Dodanie kategorii musi posiadać dwa parametry. Wpisz help po więcej informacji");
+                if (command.getParam().size() != 2) {
+                    throw new IllegalArgumentException("Dodanie odpowiedzi musi posiadać dwa parametry. Wpisz help po więcej informacji");
                 }
 
-                questionName = command.getParam().get(0);
+                question = getQuestion(command.getParam().get(0));
                 String answerName = command.getParam().get(1);
 
-                // TODO: 2023-09-01 od 15:23
-                
-//                Category category = categoryDao.findOne(categoryName).
-//                        orElseThrow(() -> new IllegalStateException(String.format("Categoria %s nie znaleziona ", categoryName)));
-//
-//                questionDao.add(new Question(questionName, category));
+                questionDao.addAnswer(question, answerName);
+
+
                 break;
 
             default: {
@@ -68,6 +61,11 @@ public class AnswerCommandHandler extends BaseCommandHandler {
                         command.getAction(), command.getCommand()));
             }
         }
+    }
+
+    private Question getQuestion(final String questionName) {
+        return questionDao.findOne(questionName)
+                .orElseThrow(() -> new IllegalStateException("Nie ma takiego pytania jak " + questionName));
     }
 
     private void displayQuestion(Question question) {
